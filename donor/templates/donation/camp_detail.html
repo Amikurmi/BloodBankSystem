@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ camp.name }} - {{ camp.location }}</h2>
+    <p>Date: {{ camp.date }}</p>
+    <p>Description: {{ camp.description }}</p>
+
+    {% if existing_donation %}
+        <p>You have already registered for this camp.</p>
+        <p>Status: {{ existing_donation.status }}</p>
+        {% if existing_donation.status == 'Completed' %}
+            <a href="{% url 'generate_certificate' existing_donation.id %}">Download Certificate</a>
+        {% endif %}
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Register to Donate</button>
+        </form>
+    {% endif %}
+{% endblock %}

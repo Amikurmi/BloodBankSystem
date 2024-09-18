@@ -1,0 +1,14 @@
+{% extends "home.html" %}
+
+{% block content %}
+  <h1>Donate Blood</h1>
+  <p>Welcome, {{ donor_profile.user.user.username }}!</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Donate</button>
+  </form>
+
+  <p><a href="{% url 'donation_success' %}">Donation Success Page</a></p>
+{% endblock %}

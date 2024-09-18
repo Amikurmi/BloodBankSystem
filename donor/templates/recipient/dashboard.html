@@ -1,0 +1,64 @@
+{% extends "home.html" %}
+{% block title %}Recipient-dashboard{% endblock  %}
+{% block content %}
+    <main>
+      <div class="container">
+        <h1>Recipient Dashboard</h1>
+        <p>Username: {{ recipient_profile.user_profile.user.username }}</p>
+        <p>Email: {{ recipient_profile.user_profile.user.email }}</p>
+        <p>First Name: {{ recipient_profile.first_name }}</p>
+        <p>Last Name: {{ recipient_profile.last_name }}</p>
+        <p>Age: {{ recipient_profile.age }}</p>
+        <p>Contact Number: {{ recipient_profile.contact_number }}</p>
+        <p>Address: {{ recipient_profile.address }}</p>
+      </div>
+    </main>
+{% endblock  %}
+
+{% block style %}
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styling */
+.container {
+    min-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+h1 {
+    margin-top: 0;
+    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Paragraph styling */
+p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+}
+
+/* Optional: Add spacing between paragraphs */
+p + p {
+    margin-top: 15px;
+}
+
+/* Highlight label text */
+p span.label {
+    font-weight: bold;
+    color: #333;
+}
+
+{% endblock  %}

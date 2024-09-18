@@ -1,0 +1,104 @@
+{% extends "home.html" %}
+{% block title %}Recipient List{% endblock %}
+{% block content %}
+<div class="recipient-list-container">
+    <h2 class="recipient-list-title">Recipient List</h2>
+    <table id="recipient-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Contact No.</th>
+                <!-- Blood Group column is hidden -->
+                <!-- <th>Blood Group</th> -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipient in recipients %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ recipient.first_name }}</td>
+                <td>{{ recipient.last_name }}</td>
+                <td>{{ recipient.user.user.email }}</td>
+                <td>{{ recipient.age }}</td>
+                <td>{{ recipient.contact_number }}</td>
+                <!-- Blood Group data is hidden -->
+                <!-- <td>{{ recipient.blood_group }}</td> -->
+                <td>
+                    <a href="{% url 'edit_recipient' recipient.id %}" class="action-btn edit">Edit</a>
+                    <a href="{% url 'delete_recipient' recipient.id %}" class="action-btn delete">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">No recipients available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block style %}
+.recipient-list-container {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+#recipient-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#recipient-table th, #recipient-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+#recipient-table thead {
+    background-color: #021d49;
+    color: white;
+}
+
+#recipient-table tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+#recipient-table tr:hover {
+    background-color: #ddd;
+}
+
+#recipient-table th {
+    text-align: left;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 4px;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit {
+    background-color: #4CAF50;
+}
+
+.delete {
+    background-color: #f44336;
+}
+
+.edit:hover {
+    background-color: #45a049;
+}
+
+.delete:hover {
+    background-color: #e53935;
+}
+{% endblock %}

@@ -1,0 +1,255 @@
+/* Reset margin and padding for all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Basic styling for the body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Header styling */
+header {
+  background-color: #333; /* Dark background color */
+  color: white;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar styling */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Logo container */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo image styling */
+.logo img {
+  width: 50px; /* Adjust logo size */
+  height: 50px;
+  border-radius: 50%;
+}
+
+/* Logo text styling */
+.logo h1 {
+  color: white;
+  margin-left: 10px;
+}
+
+/* Navbar links styling */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: auto;
+}
+
+/* Navbar link items styling */
+.nav-links li {
+  display: inline;
+}
+
+/* Navbar links styling */
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s; /* Smooth color transition */
+  margin-top: 20px;
+}
+
+/* Navbar links hover effect */
+.nav-links a:hover {
+  color: #f4a261; /* Light orange color on hover */
+}
+
+/* Hero section styling */
+.hero img {
+  height: 400px;
+  width: 100%;
+  background-size: cover;
+}
+
+/* Hero content styling */
+.hero-content {
+  max-width: 800px;
+}
+
+/* Hero text styling */
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* Call to action button styling */
+.cta-button {
+  background: #ff3333;
+  color: white;
+  padding: 0.5rem 2rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* Features section styling */
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 100px auto;
+}
+
+/* Feature box styling */
+.feature {
+  text-align: center;
+}
+
+.feature img {
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.feature h2 {
+  margin-bottom: 0.5rem;
+  color: black;
+}
+
+/* Container styling */
+.container {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* Form styling */
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  flex: 1;
+  /* Ensures the wrapper expands to fill available space */
+}
+
+.content {
+  padding: 20px;
+  /* Add any styles you need for your content */
+}
+
+.footer {
+  background-color: rgb(195, 202, 194);
+  padding: 40px 0;
+}
+.footer .footer-content {
+  margin-bottom: 20px;
+}
+.footer .footer-bottom {
+  border-top: 1px solid #dee2e6;
+  padding-top: 10px;
+  text-align: center;
+}
+.footer h3 {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.alert-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 9999;
+    width: 300px;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.alert-error {
+    background-color: #f44336;
+    color: white;
+}
+
+.alert-warning {
+    background-color: #ff9800;
+    color: white;
+}

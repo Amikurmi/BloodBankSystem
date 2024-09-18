@@ -1,0 +1,65 @@
+{% extends "home.html" %}
+{% block title %}Donor-dashboard{% endblock  %}
+{% block contennt %}
+    <main>
+      <div class="container">
+        <h1>Donor Dashboard</h1>
+        <p>Username: {{ donor_profile.user_profile.user.username }}</p>
+        <p>Email: {{ donor_profile.user_profile.user.email }}</p>
+        <p>First Name: {{ donor_profile.first_name }}</p>
+        <p>Last Name: {{ donor_profile.last_name }}</p>
+        <p>Age: {{ donor_profile.age }}</p>
+        <p>Contact Number: {{ donor_profile.contact_number }}</p>
+        <p>Blood Group: {{ donor_profile.blood_group }}</p>
+        <p>Donation Date: {{ donor_profile.donation_date }}</p>
+      </div>
+    </main>
+{% endblock  %}
+
+{% block style %}
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styling */
+.container {
+    min-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+h1 {
+    margin-top: 0;
+    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Paragraph styling */
+p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+}
+
+/* Optional: Add spacing between paragraphs */
+p + p {
+    margin-top: 15px;
+}
+
+/* Highlight label text */
+p span.label {
+    font-weight: bold;
+    color: #333;
+}
+
+{% endblock  %}

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate of Blood Donation</title>
+</head>
+<body>
+    <h1>Certificate of Blood Donation</h1>
+    <p>This is to certify that <strong>{{ donor.first_name }} {{ donor.last_name }}</strong> (Age: {{ donor.age }}),</p>
+    <p>Has donated blood at the {{ camp.name }} held on {{ camp.date }}.</p>
+    <p>Blood Group: {{ blood_group }}</p>
+    <p>Location: {{ camp.location }}</p>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{% extends "home.html" %}
+{% block title %}Edit Blood Request{% endblock %}
+{% block content %}
+<main>
+  <div class="container">
+    <h2>Edit Blood Request</h2>
+    <form method="post">
+      {% csrf_token %}
+      <label for="blood_group">Blood Group:</label>
+      <select name="blood_group" id="blood_group" required>
+        <option value="A+" {% if blood_request.blood_group == 'A+' %}selected{% endif %}>A+</option>
+        <option value="A-" {% if blood_request.blood_group == 'A-' %}selected{% endif %}>A-</option>
+        <option value="B+" {% if blood_request.blood_group == 'B+' %}selected{% endif %}>B+</option>
+        <option value="B-" {% if blood_request.blood_group == 'B-' %}selected{% endif %}>B-</option>
+        <option value="AB+" {% if blood_request.blood_group == 'AB+' %}selected{% endif %}>AB+</option>
+        <option value="AB-" {% if blood_request.blood_group == 'AB-' %}selected{% endif %}>AB-</option>
+        <option value="O+" {% if blood_request.blood_group == 'O+' %}selected{% endif %}>O+</option>
+        <option value="O-" {% if blood_request.blood_group == 'O-' %}selected{% endif %}>O-</option>
+      </select>
+      <br />
+      <label for="required_date">Required Date:</label>
+      <input type="date" name="required_date" id="required_date" value="{{ blood_request.required_date }}" required />
+      <br />
+      <label for="quantity">Quantity (in units):</label>
+      <input type="number" name="quantity" id="quantity" min="1" value="{{ blood_request.quantity }}" required />
+      <br />
+      <label for="status">Status:</label>
+      <select name="status" id="status" required>
+        <option value="pending" {% if blood_request.status == 'pending' %}selected{% endif %}>Pending</option>
+        <option value="complete" {% if blood_request.status == 'complete' %}selected{% endif %}>Complete</option>
+      </select>
+      <br />
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</main>
+
+{% endblock %}
+
+
+{% block style %}
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styling */
+.container {
+    min-width: 60%;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form field styling */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="date"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Button styling */
+button[type="submit"] {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+
+{% endblock  %}

@@ -1,0 +1,82 @@
+{% extends "home.html" %}
+{% block title %}Add Donation Camp{% endblock %}
+{% block content %}
+<div class="add-donation-camp-container">
+    <h2 class="add-donation-camp-title">Add New Donation Camp</h2>
+    <form method="post" class="add-donation-camp-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Add Camp</button>
+    </form>
+    <a href="{% url 'donation_camp_list' %}" class="back-link">Back to Camp List</a>
+</div>
+{% endblock %}
+
+{% block style %}
+/* Container Styling */
+.add-donation-camp-container {
+    height: 100%;
+    min-width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.add-donation-camp-title {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Form Styling */
+.add-donation-camp-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-donation-camp-form input[type="text"],
+.add-donation-camp-form input[type="email"],
+.add-donation-camp-form textarea,
+.add-donation-camp-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* Button Styling */
+.submit-button {
+    padding: 10px 20px;
+    border: 2px solid #007BFF;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px; /* Adjusted for spacing */
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Back Link Styling */
+.back-link {
+    display: inline-block;
+    font-size: 1em;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+{% endblock %}

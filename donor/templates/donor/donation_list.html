@@ -1,0 +1,105 @@
+{% extends "home.html" %}
+{% block title %}Donation List{% endblock %}
+{% block content %}
+<div class="donation-list-container">
+    <h2 class="donation-list-title">Donation List</h2>
+    <table id="donation-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Donor</th>
+                <th>Blood Group</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for donation in donations %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ donation.user.first_name }} {{ donation.user.last_name }}</td>
+                <td>{{ donation.blood_group }}</td>
+                <td>{{ donation.donation_date }}</td> <!-- Ensure this is the correct field -->
+                <td>
+                    <a href="{% url 'edit_donation' donation.id %}" class="action-btn edit">Edit</a>
+                    <a href="{% url 'delete_donation' donation.id %}" class="action-btn delete">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align: center;">No donations available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block style %}
+.donation-list-container {
+    max-width: 100%;
+    margin: 20px 400px;
+
+    padding-left: 20px; /* Add margin from the left */
+    padding-right: 20px; /* Add margin from the right */
+}
+
+.donation-list-title {
+    text-align: center;
+    color: #021d49;
+    margin-bottom: 20px;
+}
+
+#donation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#donation-table th, #donation-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+#donation-table thead {
+    background-color: #021d49;
+    color: white;
+}
+
+#donation-table tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+#donation-table tr:hover {
+    background-color: #ddd;
+}
+
+#donation-table th {
+    text-align: left;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 4px;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit {
+    background-color: #4CAF50;
+}
+
+.delete {
+    background-color: #f44336;
+}
+
+.edit:hover {
+    background-color: #45a049;
+}
+
+.delete:hover {
+    background-color: #e53935;
+}
+{% endblock %}

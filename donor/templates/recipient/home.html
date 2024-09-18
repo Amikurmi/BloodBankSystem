@@ -1,0 +1,43 @@
+{% extends "home.html" %}
+{% block title %}Home{% endblock  %}
+{% block content %}
+
+    <h1 class="text-center my-3">Blood Bank Management System</h1>
+    <h1 class="text-center my-3">List of Recipient</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <table class="table">
+                <tr>
+                  <th>SNO.</th>
+                  <th>FIRSTNAME</th>
+                  <th>LASTNAME</th>
+                  <th>AGE</th>
+                  <th>REQUIRED BLOOD GROUP</th>
+                  <th>CONTACT N0.</th>
+                  <th>ADDRESS</th>
+                  <th>REQUIRED DATE</th>
+                </tr>
+                {% for d in recipient_profile %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{d.first_name}}</td>
+                  <td>{{d.last_name}}</td>
+                  <td>{{d.age}}</td>
+                  <td>{{d.required_blood_group}}</td>
+                  <td>{{d.contact_number}}</td>
+                  <td>{{d.address}}</td>
+                  <td>{{d.required_date}}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock  %}

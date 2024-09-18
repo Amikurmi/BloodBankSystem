@@ -1,0 +1,107 @@
+{% extends "home.html" %}
+{% block title %}Request Status{% endblock %}
+
+{% block content %}
+<main>
+  <div class="container">
+    <h2>Request Status</h2>
+    <table id="request-table">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Contact No.</th>
+          <th>Required Date</th>
+          <th>Blood Group</th>
+          <th>Quantity (pounds)</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in recipient_requests %}
+        <tr>
+           <td>{{ forloop.counter }}</td>
+            <td>{{ request.user.recipientprofile.first_name }}</td>
+            <td>{{ request.user.recipientprofile.last_name }}</td>
+            <td>{{ request.user.user.email }}</td>
+            <td>{{ request.user.recipientprofile.age }}</td>
+            <td>{{ request.user.recipientprofile.contact_number }}</td>
+            <td>{{ request.required_date }}</td>
+            <td>{{ request.blood_group }}</td>
+            <td>{{ request.quantity }} </td> <!-- Display quantity in pounds -->
+            <td>{{ request.status }}</td>
+          <td>
+            <a href="{% url 'edit_request' request.id %}" class="action-btn edit">Edit</a>
+            <a href="{% url 'delete_request' request.id %}" class="action-btn delete">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="11" style="text-align: center;">No requests available.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}
+
+{% block style %}
+#request-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+#request-table th, #request-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+#request-table thead {
+  background-color: #021d49;
+  color: white;
+}
+
+#request-table tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+#request-table tr:hover {
+  background-color: #ddd;
+}
+
+#request-table th {
+  text-align: left;
+}
+
+.action-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 0 4px;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit {
+  background-color: #4CAF50;
+}
+
+.delete {
+  background-color: #f44336;
+}
+
+.edit:hover {
+  background-color: #45a049;
+}
+
+.delete:hover {
+  background-color: #e53935;
+}
+{% endblock %}

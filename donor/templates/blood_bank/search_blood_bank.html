@@ -1,0 +1,121 @@
+{% extends "home.html" %}
+{% block title %}Search Blood Bank{% endblock %}
+{% block content %}
+<div class="search-blood-bank-container">
+    <h2 class="search-title">Search Blood Banks</h2>
+    <form method="get" class="search-form">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search by name..." class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+
+    <div class="blood-bank-results">
+        {% if blood_banks %}
+            <ul class="blood-bank-list">
+                {% for blood_bank in blood_banks %}
+                    <li class="blood-bank-item">
+                        <div class="blood-bank-details">
+                            <h3>{{ blood_bank.name }}</h3>
+                            <p><strong>Address:</strong> {{ blood_bank.address }}</p>
+                            <p><strong>Contact:</strong> {{ blood_bank.contact_number }}</p>
+                            <p><strong>Email:</strong> {{ blood_bank.email }}</p>
+                            <p><strong>Available Blood Types:</strong> {{ blood_bank.available_blood_types }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-results">No blood banks found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+/* Container Styling */
+.search-blood-bank-container {
+    min-width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Title Styling */
+.search-title {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Search Form Styling */
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.search-input {
+    width: 100%%;
+    padding: 10px 15px;
+    border: 2px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 1em;
+}
+
+.search-button {
+    width: 200px;
+    margin-bottom: 15px;
+    border: 2px solid #007BFF;
+    background-color: #007BFF;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Blood Bank Results Styling */
+.blood-bank-results {
+    margin-top: 20px;
+}
+
+.blood-bank-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.blood-bank-item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.blood-bank-details h3 {
+    margin-top: 0;
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.blood-bank-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+
+.blood-bank-details p strong {
+    color: #333;
+}
+
+.no-results {
+    text-align: center;
+    font-size: 1.2em;
+    color: #777;
+}
+
+{% endblock  %}

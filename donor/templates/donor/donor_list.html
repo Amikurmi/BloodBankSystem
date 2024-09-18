@@ -1,0 +1,109 @@
+{% extends "home.html" %}
+{% block title %}Donor List{% endblock %}
+{% block content %}
+<div class="donor-list-container">
+    <h2 class="donor-list-title">Donor List</h2>
+    <table id="donor-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Contact No.</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for donor in donors %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ donor.first_name }}</td>
+                <td>{{ donor.last_name }}</td>
+                <td>{{ donor.user.user.email }}</td>
+                <td>{{ donor.age }}</td>
+                <td>{{ donor.contact_number }}</td>
+                <td>
+                    <a href="{% url 'edit_donor' donor.id %}" class="action-btn edit">Edit</a>
+                    <a href="{% url 'delete_donor' donor.id %}" class="action-btn delete">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">No donors available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block style %}
+.donor-list-container {
+    max-width: 100%;
+    margin: 20px auto;
+    padding-left: 20px; /* Add margin from the left */
+    padding-right: 20px; /* Add margin from the right */
+}
+
+.donor-list-title {
+    text-align: center;
+    color: #021d49;
+    margin-bottom: 20px;
+}
+
+#donor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#donor-table th, #donor-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+#donor-table thead {
+    background-color: #021d49;
+    color: white;
+}
+
+#donor-table tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+#donor-table tr:hover {
+    background-color: #ddd;
+}
+
+#donor-table th {
+    text-align: left;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 4px;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit {
+    background-color: #4CAF50;
+}
+
+.delete {
+    background-color: #f44336;
+}
+
+.edit:hover {
+    background-color: #45a049;
+}
+
+.delete:hover {
+    background-color: #e53935;
+}
+{% endblock %}

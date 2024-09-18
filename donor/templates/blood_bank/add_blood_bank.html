@@ -1,0 +1,70 @@
+{% extends "home.html" %}
+{% block title %}Add Blood Bank{% endblock %}
+{% block content %}
+<div class="add-blood-bank-container">
+    <h2 class="add-blood-bank-title">Add Blood Bank</h2>
+    <form method="post" class="add-blood-bank-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Add Blood Bank</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block style %}
+/* Container Styling */
+.add-blood-bank-container {
+    height:100%;
+    min-width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.add-blood-bank-title {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Form Styling */
+.add-blood-bank-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-blood-bank-form input[type="text"],
+.add-blood-bank-form input[type="email"],
+.add-blood-bank-form textarea,
+.add-blood-bank-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* Button Styling */
+.submit-button {
+    padding: 10px 20px;
+    border: 2px solid #007BFF;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 100px; 
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+{% endblock  %}

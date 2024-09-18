@@ -1,0 +1,15 @@
+{% extends "home.html" %}
+{% block title %}Donation Status{% endblock %}
+{% block content %}
+    <h1>Your Donation Status</h1>
+    {% if donations %}
+        <ul>
+            {% for donation in donations %}
+                <li>{{ donation.blood_group }} - {{ donation.donation_date }} - {{ donation.status }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No donation records found.</p>
+    {% endif %}
+    <a href="{% url 'donate_blood' %}">Donate Blood</a>
+{% endblock %}

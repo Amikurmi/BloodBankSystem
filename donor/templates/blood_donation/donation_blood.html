@@ -1,0 +1,130 @@
+{% extends "home.html" %}
+{% load widget_tweaks %}  
+{% block title %}Donate Blood{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            {% if user.is_staff %}
+                <div class="alert alert-danger">
+                    <p>Admins cannot donate blood.</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
+                </div>
+            {% else %}
+                <h1>Donate Blood</h1>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <p><strong>Donor Profile:</strong> {{ donor_profile.first_name }} {{ donor_profile.last_name }}</p>
+                <p><strong>Age:</strong> {{ donor_profile.age }}</p>
+                <p><strong>Contact Number:</strong> {{ donor_profile.contact_number }}</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.blood_group.label_tag }}
+                        {{ form.blood_group|add_class:"form-control" }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.donation_date.label_tag }}
+                        {{ form.donation_date|add_class:"form-control" }}
+                    </div>
+
+                    {% comment %} <div class="form-group">
+                        {{ form.status.label_tag }}
+                        {{ form.status|add_class:"form-control" }}
+                    </div> {% endcomment %}
+
+                    <button type="submit" class="btn btn-primary">Submit Donation</button>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}
+
+{% block style %}
+/* General Styles for Main Content */
+main {
+  padding: 2rem;
+  background-color: #f4f4f4;
+}
+
+.container {
+  min-width: 50%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+input[type="date"],
+select,
+input[type="text"] {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  input,
+  select,
+  button {
+    font-size: 0.875rem;
+  }
+}
+{% endblock %}

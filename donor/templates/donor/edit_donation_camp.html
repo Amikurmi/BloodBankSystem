@@ -1,0 +1,57 @@
+{% extends "home.html" %}
+{% block title %}Edit Donation Camp{% endblock %}
+{% block content %}
+<div class="edit-donation-camp-container">
+    <h2>Edit Donation Camp</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+    <a href="{% url 'donation_camp_list' %}">Back to Donation Camps</a>
+</div>
+{% endblock %}
+
+{% block style %}
+.edit-donation-camp-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-donation-camp-container h2 {
+    text-align: center;
+    color: #021d49;
+    margin-bottom: 20px;
+}
+
+.edit-donation-camp-container form {
+    margin-bottom: 20px;
+}
+
+.edit-donation-camp-container form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.edit-donation-camp-container form button:hover {
+    background-color: #45a049;
+}
+
+.edit-donation-camp-container a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #0056b3;
+}
+{% endblock %}
