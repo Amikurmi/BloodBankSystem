@@ -36,6 +36,7 @@ from django.contrib import messages
 from .models import UserProfile
 from django.core.mail import EmailMessage
 from django.utils.encoding import force_bytes, force_str
+import random
 
 
 
@@ -51,97 +52,18 @@ def send_email(subject, message, from_email, to_email_list):
     except Exception as e:
         logger.error(f"Failed to send email to {to_email_list}: {e}")
 
-def index(request):
-    return render(request, 'index.html')
 
+def send_otp_email(email, otp):
+    subject = 'Your OTP for Email Verification'
+    message = f'Your OTP is: {otp}'
+    from_email = 'your_email@gmail.com'  # Update with your email
+    recipient_list = [email]
+    try:
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        print(f"OTP email sent to {email}")
+    except Exception as e:
+        print(f"Failed to send OTP email to {email}: {e}")
 
-
-# def register(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
-#         user_type = request.POST.get('user_type')
-
-#         if User.objects.filter(username=username).exists():
-#             messages.error(request, "Username already exists. Please choose a different username.")
-#         else:
-#             if len(password) < 8:
-#                 messages.error(request, "Password must be at least 8 characters long.")
-#                 return redirect('register')
-
-#             user = User.objects.create_user(username=username, email=email, password=password)
-#             user.is_active = False  # User must activate their account via email
-#             user.save()
-
-#             user_profile = UserProfile(user=user, user_type=user_type)
-#             user_profile.save()
-
-#             # Generate activation token and URL
-#             token = default_token_generator.make_token(user)
-#             uid = urlsafe_base64_encode(force_bytes(user.pk))
-#             activation_link = request.build_absolute_uri(reverse('activate', kwargs={'uidb64': uid, 'token': token}))
-
-#             # Prepare email content
-#             subject = 'Activate your account'
-#             message = render_to_string('register/activation_email.html', {
-#                 'username': username,
-#                 'activation_link': activation_link,
-#             })
-
-#             # Send activation email
-#             email = EmailMessage(
-#                 subject,
-#                 message,
-#                 'amitkurmiq18@gmail.com',
-#                 [email],
-#             )
-#             email.content_subtype = "html"  # Main content is now text/html
-#             email.send()
-
-#             # Redirect to activation page
-#             context = {
-#                 'email': email
-#             }
-#             return render(request, 'register/activation_page.html', context)
-
-#     return render(request, 'register/register.html')
-
-
-# def activate(request, uidb64, token):
-#     try:
-#         uid = force_str(urlsafe_base64_decode(uidb64))
-#         user = User.objects.get(pk=uid)
-#     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-#         user = None
-
-#     if user is not None and default_token_generator.check_token(user, token):
-#         user.is_active = True
-#         user.save()
-#         messages.success(request, "Thank you for your email confirmation.")
-#         return redirect('donor_profile')
-#     else:
-#         messages.error(request, "Activation link is invalid!")
-#         return redirect('register')
-
-# def login_view(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-#         # Debugging: Log the username and password entered
-#         print(f"Attempting login with Username: {username}, Password: {password}")
-
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             messages.success(request, "Login successful!")
-#             return redirect('home')
-#         else:
-#             messages.error(request, "Failed login attempt. Username or password is incorrect.")
-    
-#     return render(request, 'register/login.html')
 def register(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -152,21 +74,99 @@ def register(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists. Please choose a different username.")
         else:
+            # Create the user
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
 
-            user_profile = UserProfile(user=user, user_type=user_type)
-            user_profile.save()
-            messages.success(request, "User created successfully.")
+            # Generate and send OTP
+            otp = str(random.randint(100000, 999999))  # Generate a random 6-digit OTP
+            send_otp_email(user.email, otp)
 
-            if user_type == 'donor':
-                return redirect('donor_profile', user_profile_id=user_profile.id)
-            elif user_type == 'recipient':
-                return redirect('recipient_profile', user_profile_id=user_profile.id)
-            else:
-                messages.error(request, "Invalid user type selected.")
+            # Create the UserProfile and store the OTP
+            user_profile = UserProfile(user=user, user_type=user_type, otp=otp)
+            user_profile.save()
+            messages.success(request, "User created successfully. Please verify your email.")
+
+            # Set the session to store the registered user ID for OTP verification
+            request.session['registered_user_id'] = user.id
+
+            # Redirect to OTP verification page
+            return redirect('verify_otp')
 
     return render(request, 'register/register.html')
+
+from django.contrib.auth import login
+
+def verify_otp(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        
+        # Retrieve the user from the session
+        user_id = request.session.get('registered_user_id')
+        if not user_id:
+            messages.error(request, "No user found. Please register again.")
+            return redirect('register')
+
+        try:
+            user = User.objects.get(id=user_id)
+            user_profile = UserProfile.objects.get(user=user)
+
+            if user_profile.otp == otp:
+                # Mark email as verified
+                user_profile.email_verified = True
+                user_profile.save()
+
+                # Log the user in
+                login(request, user)
+                messages.success(request, "Your email has been verified!")
+
+                # Redirect based on user type
+                if user_profile.user_type == 'recipient':
+                    return redirect('recipient_profile', user_profile_id=user_profile.id)  # Redirect to recipient profile with user_profile_id
+                elif user_profile.user_type == 'donor':
+                    return redirect('donor_profile', user_profile_id=user_profile.id)  # Redirect to donor profile with user_profile_id
+                else:
+                    return redirect('home')  # Redirect to home if user type is neither
+
+            else:
+                messages.error(request, "Invalid OTP. Please try again.")
+                return render(request, 'otp_verify.html')
+        except User.DoesNotExist:
+            messages.error(request, "User not found. Please register again.")
+            return redirect('register')
+        except UserProfile.DoesNotExist:
+            messages.error(request, "Profile not found for this user.")
+            return redirect('register')
+
+    return render(request, 'otp_verify.html')
+
+
+#    
+# def register(request):
+#     if request.method == "POST":
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         user_type = request.POST.get('user_type')
+
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request, "Username already exists. Please choose a different username.")
+#         else:
+#             user = User.objects.create_user(username=username, email=email, password=password)
+#             user.save()
+
+#             user_profile = UserProfile(user=user, user_type=user_type)
+#             user_profile.save()
+#             messages.success(request, "User created successfully.")
+
+#             if user_type == 'donor':
+#                 return redirect('donor_profile', user_profile_id=user_profile.id)
+#             elif user_type == 'recipient':
+#                 return redirect('recipient_profile', user_profile_id=user_profile.id)
+#             else:
+#                 messages.error(request, "Invalid user type selected.")
+
+#     return render(request, 'register/register.html')
 
 def donor_profile(request, user_profile_id):
     user_profile = UserProfile.objects.get(id=user_profile_id)
@@ -212,6 +212,15 @@ def recipient_profile(request, user_profile_id):
     
     return render(request, 'recipient/recipient_profile.html', {'user_profile': user_profile})
 
+import logging
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .models import UserProfile
+
+logger = logging.getLogger(__name__)
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -219,28 +228,41 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
+            user_profile = UserProfile.objects.get(user=user)
+
+            # Check if email is verified
+            if not user_profile.email_verified:
+                messages.error(request, "Email not verified. Please verify your email before logging in.")
+                logger.warning(f"Failed login attempt for username: {username} due to unverified email.")
+                return render(request, 'register/login.html')
+
             login(request, user)
             logger.info(f"User {username} logged in successfully.")
             
-            user_profile = UserProfile.objects.get(user=user)
+            # Redirect based on user type
             if user_profile.user_type == 'admin':
                 return redirect('admin_dashboard')  # Redirect admin to a special dashboard
             elif user_profile.user_type == 'donor':
-                return redirect('index')
+                return redirect('index')  # Redirect donor to index
             elif user_profile.user_type == 'recipient':
-                return redirect('index')
+                return redirect('index')  # Redirect recipient to index
             else:
-                return redirect('index')
+                return redirect('index')  # Default redirect for unknown user type
         else:
+            # Check if the username exists to give a specific error message
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Incorrect password. Please try again.')
                 logger.warning(f"Failed login attempt for username: {username} due to incorrect password.")
             else:
                 messages.error(request, 'Username not found. Please enter a correct username.')
                 logger.warning(f"Failed login attempt for username: {username} due to non-existent username.")
+
             return render(request, 'register/login.html')
     
     return render(request, 'register/login.html')
+
+def index(request):
+    return render(request, 'index.html')
 
 @login_required(login_url='/login')
 def home(request):

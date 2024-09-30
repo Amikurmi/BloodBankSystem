@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
+    path('verify_otp/', views.verify_otp, name='verify_otp'),
     path('donor_profile/<int:user_profile_id>/', views.donor_profile, name='donor_profile'),
     # path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('recipient_profile/<int:user_profile_id>/', views.recipient_profile, name='recipient_profile'),

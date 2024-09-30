@@ -164,10 +164,17 @@ ADMIN_EMAIL = 'amitkurmiq18@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'    
 
 
-EMAIL_HOST = 'smtp.example.com'
+# EMAIL_HOST = 'smtp.example.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'amitkurmiq18@gmail.com'
+# EMAIL_HOST_PASSWORD = 'Amitkumar4512'
+# DEFAULT_FROM_EMAIL = 'amitkurmiq18@gmail.com'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'amitkurmiq18@gmail.com'
-EMAIL_HOST_PASSWORD = 'Amitkumar4512'
-DEFAULT_FROM_EMAIL = 'amitkurmiq18@gmail.com'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST_USER = 'amitkurmiq19@gmail.com'
+EMAIL_HOST_PASSWORD = 'aavw bocc yngr fwml'

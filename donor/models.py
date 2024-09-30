@@ -3,16 +3,10 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 class UserProfile(models.Model):
-    USER_TYPES = (
-        ('donor', 'Donor'),
-        ('recipient', 'Recipient'),
-        ('admin', 'Admin'),
-    )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_type = models.CharField(max_length=10, choices=USER_TYPES)
-
-    def __str__(self):
-        return self.user.username
+    user_type = models.CharField(max_length=20)
+    otp = models.CharField(max_length=6, null=True, blank=True)
+    email_verified = models.BooleanField(default=False)
 
 
 class DonorProfile(models.Model):
